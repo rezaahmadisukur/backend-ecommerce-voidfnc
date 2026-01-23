@@ -30,6 +30,12 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
+  // @Get()
+  // @AllowAnonymous()
+  // findAll(@Query() getProductByIdDto: GetProductByIdDto) {
+  //   return this.productService.findAll();
+  // }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
