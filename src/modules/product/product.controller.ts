@@ -30,6 +30,7 @@ export class ProductController {
   }
 
   @Get(':id')
+  @AllowAnonymous()
   findOne(@Param('id') id: string) {
     return this.productService.findOne(id);
   }
