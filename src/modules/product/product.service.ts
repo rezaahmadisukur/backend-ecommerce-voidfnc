@@ -16,8 +16,8 @@ export class ProductService {
     switch (getProductsDto.sort) {
       case ProductSortBy.RECOMMENDED:
         return this.getRecommendedProducts(getProductsDto.limit);
-      default:
-        return this.prismaService.product.findMany({
+      default: {
+        const products = await this.prismaService.product.findMany({
           take: getProductsDto.limit,
           select: {
             id: true,
@@ -32,6 +32,12 @@ export class ProductService {
             },
           },
         });
+
+        return products.map((product) => ({
+          ...product,
+          price: product.price.toNumber(),
+        }));
+      }
     }
   }
 
@@ -53,7 +59,10 @@ export class ProductService {
       },
     });
 
-    return products;
+    return products.map((product) => ({
+      ...product,
+      price: product.price.toNumber(),
+    }));
   }
 
   async findOne(id: string) {
