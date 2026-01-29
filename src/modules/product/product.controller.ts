@@ -13,15 +13,11 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 import { GetProductsDto } from './dto/get-products.dto';
+import { SearchProductDto } from './dto/search-product.dto';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
-  }
 
   @Get()
   @AllowAnonymous()
@@ -33,6 +29,17 @@ export class ProductController {
   @AllowAnonymous()
   findOne(@Param('id') id: string) {
     return this.productService.findOne(id);
+  }
+
+  @Post('/search')
+  @AllowAnonymous()
+  search(@Body() searchProductDto: SearchProductDto) {
+    return this.productService.searchProducts(searchProductDto);
+  }
+
+  @Post()
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productService.create(createProductDto);
   }
 
   @Patch(':id')
